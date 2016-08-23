@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}TV Monitor - Mosaic{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block main %}
+ <table cellspacing=10>
+    <tr>
+    <td>
+         <form action="{{ '/monitor/mosaic/daemon/start' }}">
+	<input type="submit" value="Start mosaic">
+        </form>
+    </td>
+    <td>
+         <form action="{{ '/monitor/mosaic/daemon/stop' }}">
+    	<input type="submit" value="Stop mosaic">
+         </form>
+    </td>
+    <td>
+        {% if is_run == True %}
+	{% set status = "Running" %}
+	{% set color = "green" %}
+        {% else %}
+	{% set status = "Not Running" %}
+	{% set color = "red" %}
+        {% endif %}
+         <p>Mosaic status: <font color="{{ color }}"><b>{{ status }}</b></p>
+    </td>
+    <td>
+         <p>Last updated channel: <b>{{ last_upd }}</b></p>
+    </td>
+    </tr>
+ </table>
+
+ <table align="center" border="5" cellpadding="5">
+    <tr>
+    {% set i = 0  %}
+    {% for sid,channel in channels.iteritems() %}
+	{% set i = i + 1 %}
+	{% if channel.input_id != 1 %}
+	    {% set bgcolor = "red" %}
+	{% else %}
+	    {% set bgcolor = "white" %}
+	{% endif %}
+	{% if i % 10 == 1 %}
+	    </tr><tr>
+	{% endif %}
+	<td border="5" bgcolor="{{ bgcolor }}"><a href="{{ '/monitor/channel/%s' % sid }}" onclick="window.open(this.href, '', 'scrollbars=1,width=2020,height=1000,toolbar=0'); return false;"><img src="{{ '/mosaic/%s.jpg' % sid }}"></a></td>
+    {% endfor %}
+    </tr>
+ </table>
+<!-- <img src="{{ '/mosaic/test.jpg' }}"> -->
+{% endblock %}

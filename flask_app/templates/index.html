@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}TV Monitor - Index{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block main %}
+    <table class="index_tab">
+	<thead>
+	    <tr class="good"">
+		<td class="num">TS#</td>
+		<td class="num">CH#</td>
+		<td class="name">Name</td>
+		<td>Input</td>
+		<td>Bitrate</td>
+		<td>CC Error</td>
+		<td>PES Error</td>
+		<td class"name">Primary source</td>
+		<td class"name">Secondary source</td>
+		<td>Video codec</td>
+	    </tr>
+	</thead>
+	{% for sid,channel in channels.iteritems() %}
+	    {% if channel.input_id == 1 %}
+		{% set style_class = 'good' %}
+	    {% else %}
+		{% set style_class = 'warn' %}
+	    {% endif %}
+	    <tr class="{{ style_class }}">
+		<td class="num"><a href="{{ 'http://10.230.85.22:800%s' % channel.ts_id }}" target="_blank">{{ channel.ts_id }}</a></td>
+		<td class="num"><a href="{{ '/monitor/channel/%s' % sid }}" onclick="window.open(this.href, '', 'scrollbars=1,width=2020,height=1000,toolbar=0'); return false;">{{ sid }}</a></td>
+		<td class="name">{{ channel.name }}</td>
+		<td class="num">{{ channel.input_id }}</td>
+		<td>{{ channel.bitrate }}</td>
+		<td>{{ channel.cc }}</td>
+		<td>{{ channel.pes }}</td>
+		<td class"name">{{ channel.primary }}</td>
+		<td class"name">{{ channel.secondary }}</td>
+		<td>{{ channel.codec }}</td>
+	    </tr>
+	{% endfor %}	
+    </table>
+{% endblock %}

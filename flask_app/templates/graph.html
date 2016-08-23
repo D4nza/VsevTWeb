@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}TV Monitor - Graph{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block main %}
+ <table cellspacing=10>
+    <tr>
+	<td>
+	     <form action="{{ '/monitor/graph/daemon/start' }}">
+		<input type="submit" value="Start graph">
+	    </form>
+	</td>
+	<td>
+	     <form action="{{ '/monitor/graph/daemon/stop' }}">
+	    	<input type="submit" value="Stop graph">
+	     </form>
+	</td>
+	<td>
+	     <form action="{{ '/monitor/graph/daemon/init' }}">
+	    	<input type="submit" value="Flush dbs">
+	     </form>
+	</td>
+	<td>
+	    {% if is_run == True %}
+		{% set status = "Running" %}
+		{% set color = "green" %}
+	    {% else %}
+		{% set status = "Not Running" %}
+		{% set color = "red" %}
+	    {% endif %}
+	     <p>Graph status: <font color="{{ color }}", bold=700><b>{{ status }}</b></p>
+	</td>
+    </tr>
+ </table>
+
+ <table>
+ {% for i,channel in channels.iteritems() %}
+    <tr>
+	<td><img src="{{ '/graph/hour/%s.png' % i }}"></td>
+	<td><img src="{{ '/graph/day/%s.png' % i }}"></td>
+	<td><img src="{{ '/graph/week/%s.png' % i }}"></td>
+    </tr>
+ {% endfor %}
+ </table>
+{% endblock %}
+

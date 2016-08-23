@@ -1,0 +1,33 @@
+<html>
+<head>
+<!--meta charset='koi8-r'-->
+<meta charset='utf-8'>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=22">
+<title>Channel {{ channel.name }}</title>
+</head>
+<body>
+    <div class="vlc">
+	<embed type="application/x-vlc-plugin" src="{{ src }}" width="900" height="620">
+    </div>
+    
+    <div class="graph">
+	<img src="{{ '/graph/hour/%s.png' % channel.sid }}"><br>
+	<img src="{{ '/graph/day/%s.png' % channel.sid }}"><br>
+	<img src="{{ '/graph/week/%s.png' % channel.sid }}">
+    </div>
+    <div class="log">
+	<table class="log_tab">
+	{% for row in events %}
+	    <tr><td>{{ row.time }}</td><td>{{ row.message }}</td></tr>
+	{% endfor %}
+	</table>
+    </div>
+    <div class="reboot_button">
+        {% if channel.analog!=0 %}
+	    <form action="{{ '/monitor/restart_analog/%s' % channel.analog }}">
+		<input type="submit" value="Reboot analog">
+	    </form>
+	{% endif %}
+    </div>
+</body>
+</html>

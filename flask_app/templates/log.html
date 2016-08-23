@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}TV Monitor - Log{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block main %}
+    <table class=log_tab align="center">
+	<thead><tr><td>datetime</td><td>channel</td><td>event</td>
+    {% for row in events %}
+        <tr><td>{{ row.time }}</td><td>{{ row.channel.name }}(<a href="{{ '/monitor/channel/%s' % row.channel.sid }}" onclick="window.open(this.href, '', 'scrollbars=1,width=2020,height=1000,toolbar=0'); return false;">{{ row.channel.sid }}</a>)</td><td>{{ row.message }}</td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}
